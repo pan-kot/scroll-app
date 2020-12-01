@@ -1,0 +1,9 @@
+{
+  "short_name": "Scroll App",
+  "name": "Scroll App",
+  "icons": [],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#FFFFFF",
+  "background_color": "#000000"
+}

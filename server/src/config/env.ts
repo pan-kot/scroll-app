@@ -7,7 +7,7 @@ export function useEnv(isProduction: boolean) {
 
   if (!isProduction) {
     // Falling back to sample configuration if .env if not defined
-    dotenv.config({ path: '.env.sample' });
+    dotenv.config({ path: '.env.local' });
   }
 }
 
