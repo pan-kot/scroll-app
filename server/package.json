@@ -10,7 +10,7 @@
     "start": "NODE_ENV=production node .",
     "lint": "yarn tslint --project . --fix",
     "format": "yarn prettier --write .",
-    "test": "NODE_ENV=test yarn jest",
+    "test": "NODE_ENV=test yarn jest --watch",
     "generate-advisors": "ts-node ./generator/generate-advisors.ts >> ./data/advisors.json"
   },
   "lint-staged": {
