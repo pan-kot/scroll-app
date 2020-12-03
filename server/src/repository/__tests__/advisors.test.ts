@@ -9,7 +9,7 @@ describe('advisors repository', () => {
 
   it('should return all advisors sorted by reviews asc', async () => {
     const result = await selectAdvisors({
-      sort: { property: 'feedback.reviews', direction: 'ASC' },
+      sort: { property: 'feedback.reviews', direction: 'asc' },
     });
 
     expect(result).toHaveLength(100);
@@ -21,7 +21,7 @@ describe('advisors repository', () => {
 
   it('should return all advisors sorted by reviews desc', async () => {
     const result = await selectAdvisors({
-      sort: { property: 'feedback.reviews', direction: 'DESC' },
+      sort: { property: 'feedback.reviews', direction: 'desc' },
     });
 
     expect(result).toHaveLength(100);
@@ -49,7 +49,7 @@ describe('advisors repository', () => {
 
   it('should return only advisors that speak Enlish and are online sorted by reviews desc', async () => {
     const result = await selectAdvisors({
-      sort: { property: 'feedback.reviews', direction: 'DESC' },
+      sort: { property: 'feedback.reviews', direction: 'desc' },
       filter: { isOnline: true, language: 'EN' },
     });
 

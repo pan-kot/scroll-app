@@ -1,24 +1,32 @@
 import path from 'path';
 import fs from 'fs';
 
-import type { TAdvisorCard } from '../../generator/types';
+import { TAdvisorCard } from '../../generator/types';
 
 import { isTest } from '../config';
 
-export type TAdvisorsSelectQuery = {
-  sort?: {
-    property: 'feedback.reviews';
-    direction: 'ASC' | 'DESC';
-  };
-  filter?: {
-    isOnline?: boolean;
-    language?: string;
-  };
+export type TSortProperty = 'feedback.reviews';
+
+export type TSortDirection = 'asc' | 'desc';
+
+export type TAdvisorsSort = {
+  property: TSortProperty;
+  direction: TSortDirection;
+};
+
+export type TAdvisorsFilter = {
+  isOnline?: boolean;
+  language?: string;
+};
+
+export type TAdvisorsQuery = {
+  sort?: TAdvisorsSort;
+  filter?: TAdvisorsFilter;
 };
 
 type TPredicate<T> = (item: T) => boolean;
 
-export async function selectAdvisors(query: TAdvisorsSelectQuery) {
+export async function selectAdvisors(query: TAdvisorsQuery) {
   let data = await loadData();
 
   data = sortData(data, query);
@@ -27,7 +35,7 @@ export async function selectAdvisors(query: TAdvisorsSelectQuery) {
   return data;
 }
 
-function sortData(data: TAdvisorCard[], query: TAdvisorsSelectQuery) {
+function sortData(data: TAdvisorCard[], query: TAdvisorsQuery) {
   if (query.sort) {
     const { property, direction } = query.sort;
 
@@ -45,12 +53,12 @@ function sortData(data: TAdvisorCard[], query: TAdvisorsSelectQuery) {
   return data;
 }
 
-function sortByReviews(data: TAdvisorCard[], direction: 'ASC' | 'DESC') {
+function sortByReviews(data: TAdvisorCard[], direction: TSortDirection) {
   switch (direction) {
-    case 'ASC':
+    case 'asc':
       return data.sort((a, b) => a.feedback.reviews - b.feedback.reviews);
 
-    case 'DESC':
+    case 'desc':
       return data.sort((a, b) => b.feedback.reviews - a.feedback.reviews);
 
     default:
@@ -60,7 +68,7 @@ function sortByReviews(data: TAdvisorCard[], direction: 'ASC' | 'DESC') {
   }
 }
 
-function filterData(data: TAdvisorCard[], query: TAdvisorsSelectQuery) {
+function filterData(data: TAdvisorCard[], query: TAdvisorsQuery) {
   const { isOnline, language } = query.filter || {};
 
   const predicates = [];
