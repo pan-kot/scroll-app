@@ -5,6 +5,8 @@ import { TAdvisorCard } from '../../generator/types';
 
 import { isTest } from '../config';
 
+const DEFAULT_PAGE_SIZE = 50;
+
 export type TSortProperty = 'feedback.reviews';
 
 export type TSortDirection = 'asc' | 'desc';
@@ -22,6 +24,8 @@ export type TAdvisorsFilter = {
 export type TAdvisorsQuery = {
   sort?: TAdvisorsSort;
   filter?: TAdvisorsFilter;
+  page?: number;
+  size?: number;
 };
 
 type TPredicate<T> = (item: T) => boolean;
@@ -29,15 +33,16 @@ type TPredicate<T> = (item: T) => boolean;
 export async function selectAdvisors(query: TAdvisorsQuery) {
   let data = await loadData();
 
-  data = sortData(data, query);
-  data = filterData(data, query);
+  data = sortData(data, query.sort);
+  data = filterData(data, query.filter);
+  data = paginateData(data, query);
 
   return data;
 }
 
-function sortData(data: TAdvisorCard[], query: TAdvisorsQuery) {
-  if (query.sort) {
-    const { property, direction } = query.sort;
+function sortData(data: TAdvisorCard[], sort?: TAdvisorsSort) {
+  if (sort) {
+    const { property, direction } = sort;
 
     switch (property) {
       case 'feedback.reviews':
@@ -68,8 +73,8 @@ function sortByReviews(data: TAdvisorCard[], direction: TSortDirection) {
   }
 }
 
-function filterData(data: TAdvisorCard[], query: TAdvisorsQuery) {
-  const { isOnline, language } = query.filter || {};
+function filterData(data: TAdvisorCard[], filter?: TAdvisorsFilter) {
+  const { isOnline, language } = filter || {};
 
   const predicates = [];
 
@@ -104,6 +109,12 @@ function composePredicates<T>(predicates: TPredicate<T>[]): (data: T[]) => T[] {
   );
 
   return (data) => data.filter(composed);
+}
+
+function paginateData(data: TAdvisorCard[], query: TAdvisorsQuery) {
+  const { page = 0, size = DEFAULT_PAGE_SIZE } = query;
+
+  return data.slice(size * page, size * (page + 1));
 }
 
 function loadData(): Promise<TAdvisorCard[]> {
