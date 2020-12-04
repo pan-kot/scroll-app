@@ -1,4 +1,5 @@
 export type TAdvisorCard = {
+  id: string;
   name: string;
   contact: { email: string };
   appearance: { about: string; avatar: string; color: string };

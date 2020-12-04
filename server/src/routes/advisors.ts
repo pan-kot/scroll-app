@@ -33,9 +33,9 @@ router.get('/', async (req, res) => {
   }
 
   const [, advisorsQuery] = parsedQuery;
-  const items = await selectAdvisors(advisorsQuery);
+  const result = await selectAdvisors(advisorsQuery);
 
-  res.status(200).send({ items, total: items.length });
+  res.status(200).send(result);
 });
 
 function parseQueryParams(

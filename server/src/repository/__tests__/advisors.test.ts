@@ -4,7 +4,8 @@ describe('advisors repository', () => {
   it('should return all advisors', async () => {
     const result = await selectAdvisors({ size: 100 });
 
-    expect(result).toHaveLength(100);
+    expect(result.total).toBe(100);
+    expect(result.items).toHaveLength(100);
   });
 
   it('should return advisors in pages', async () => {
@@ -13,8 +14,8 @@ describe('advisors repository', () => {
     const part1 = await selectAdvisors({ size: 50 });
     const part2 = await selectAdvisors({ page: 1, size: 50 });
 
-    expect([...part1, ...part2]).toHaveLength(100);
-    expect([...part1, ...part2]).toEqual(result);
+    expect(part1.total + part2.total).toBe(200);
+    expect([...part1.items, ...part2.items]).toEqual(result.items);
   });
 
   it('should return all advisors sorted by reviews asc', async () => {
@@ -23,9 +24,9 @@ describe('advisors repository', () => {
       sort: { property: 'feedback.reviews', direction: 'asc' },
     });
 
-    expect(result).toHaveLength(100);
+    expect(result.items).toHaveLength(100);
 
-    const reviews = result.map((it) => it.feedback.reviews);
+    const reviews = result.items.map((it) => it.feedback.reviews);
 
     expect(isSorted(reviews, (prev, curr) => prev <= curr)).toBe(true);
   });
@@ -36,9 +37,9 @@ describe('advisors repository', () => {
       sort: { property: 'feedback.reviews', direction: 'desc' },
     });
 
-    expect(result).toHaveLength(100);
+    expect(result.items).toHaveLength(100);
 
-    const reviews = result.map((it) => it.feedback.reviews);
+    const reviews = result.items.map((it) => it.feedback.reviews);
 
     expect(isSorted(reviews, (prev, curr) => prev >= curr)).toBe(true);
   });
@@ -49,7 +50,8 @@ describe('advisors repository', () => {
       filter: { isOnline: true },
     });
 
-    expect(result).toHaveLength(8);
+    expect(result.total).toBe(8);
+    expect(result.items).toHaveLength(8);
   });
 
   it('should return only advisors that speak Enlish', async () => {
@@ -58,7 +60,7 @@ describe('advisors repository', () => {
       filter: { language: 'EN' },
     });
 
-    expect(result).toHaveLength(72);
+    expect(result.items).toHaveLength(72);
   });
 
   it('should return only advisors that speak Enlish and are online sorted by reviews desc', async () => {
@@ -68,9 +70,9 @@ describe('advisors repository', () => {
       filter: { isOnline: true, language: 'EN' },
     });
 
-    expect(result).toHaveLength(6);
+    expect(result.items).toHaveLength(6);
 
-    const reviews = result.map((it) => it.feedback.reviews);
+    const reviews = result.items.map((it) => it.feedback.reviews);
 
     expect(isSorted(reviews, (prev, curr) => prev >= curr)).toBe(true);
   });

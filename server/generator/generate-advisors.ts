@@ -13,6 +13,7 @@ function generateAdvisors(n: number): TAdvisorCard[] {
 }
 
 function generateOneAdvisor() {
+  const id = generateId();
   const name = generateName();
   const contact = generateContact(name);
   const appearance = generateAppearance();
@@ -20,7 +21,11 @@ function generateOneAdvisor() {
   const features = generateFeatures();
   const feedback = generateFeedback();
 
-  return { name, contact, appearance, presence, features, feedback };
+  return { id, name, contact, appearance, presence, features, feedback };
+}
+
+function generateId() {
+  return faker.random.uuid();
 }
 
 function generateName() {

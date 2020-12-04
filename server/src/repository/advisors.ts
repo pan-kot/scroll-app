@@ -28,16 +28,26 @@ export type TAdvisorsQuery = {
   size?: number;
 };
 
+export type TAdvisorsQueryResult = {
+  items: TAdvisorCard[];
+  total: number;
+};
+
 type TPredicate<T> = (item: T) => boolean;
 
-export async function selectAdvisors(query: TAdvisorsQuery) {
-  let data = await loadData();
+export async function selectAdvisors(
+  query: TAdvisorsQuery
+): Promise<TAdvisorsQueryResult> {
+  let total = 0;
+  let items = await loadData();
 
-  data = sortData(data, query.sort);
-  data = filterData(data, query.filter);
-  data = paginateData(data, query);
+  items = sortData(items, query.sort);
+  items = filterData(items, query.filter);
 
-  return data;
+  total = items.length;
+  items = paginateData(items, query);
+
+  return { items, total };
 }
 
 function sortData(data: TAdvisorCard[], sort?: TAdvisorsSort) {
