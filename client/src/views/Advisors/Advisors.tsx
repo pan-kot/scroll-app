@@ -6,6 +6,7 @@ import useAdvisors from './useAdvisors';
 
 import AdvisorsHeader from './AdvisorsHeader';
 import AdvisorsList from './AdvisorsList';
+import AdvisorsError from './AdvisorsError';
 
 export default function Advisors() {
   const advisors = useAdvisors();
@@ -23,9 +24,20 @@ export default function Advisors() {
 
         <br />
 
-        <Box width="100%" height="100%" overflowY="auto">
-          <AdvisorsList {...advisors} />
-        </Box>
+        {!advisors.error ? (
+          <Box width="100%" height="100%" overflowY="auto">
+            <AdvisorsList {...advisors} />
+          </Box>
+        ) : (
+          <Flex
+            width="100%"
+            height="100%"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <AdvisorsError error={advisors.error} />
+          </Flex>
+        )}
       </Flex>
     </Flex>
   );

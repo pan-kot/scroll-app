@@ -1,3 +1,5 @@
+// Ideally to generate these from the API
+
 export type TAdvisorCard = {
   id: string;
   name: string;

@@ -1,5 +1,4 @@
 import faker from 'faker';
-import md5 from 'md5';
 
 import { TAdvisorCard } from './types';
 

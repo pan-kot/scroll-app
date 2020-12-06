@@ -2,7 +2,6 @@
   "name": "scroll-app-server",
   "private": true,
   "version": "0.0.0",
-  "description": "Playground Node.js application.",
   "main": "dist/index.js",
   "scripts": {
     "dev": "NODE_ENV=development nodemon --ext ts --exec ts-node src/index ",
@@ -10,8 +9,8 @@
     "start": "NODE_ENV=production node .",
     "lint": "yarn tslint --project . --fix",
     "format": "yarn prettier --write .",
-    "test": "NODE_ENV=test yarn jest --watch",
-    "generate-advisors": "ts-node ./generator/generate-advisors.ts >> ./data/advisors.json"
+    "test": "NODE_ENV=test yarn jest",
+    "generate-advisors": "rimraf ./data/advisors.json && ts-node ./generator/generate-advisors.ts >> ./data/advisors.json"
   },
   "lint-staged": {
     "*.{ts}": [

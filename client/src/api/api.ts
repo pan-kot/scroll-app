@@ -2,6 +2,8 @@ import axios from 'axios';
 import { useRef, useMemo, useState, useCallback, useEffect } from 'react';
 import useAxios from 'axios-hooks';
 
+import { removeNilProps } from '../util';
+
 import { TAdvisorsRequest, TAdvisorsResponse } from './types';
 
 export const PAGE_SIZE = 50;
@@ -14,6 +16,7 @@ export function useGetAdvisors(request: TAdvisorsRequest) {
   const [error, setError] = useState(null);
   const [data, setData] = useState<TAdvisorsResponse>({ items: [], total: 0 });
 
+  // When filters change drop everything to initial state and cancel ongoing request
   useEffect(() => {
     cancelTokenSource.current.cancel();
 
@@ -23,7 +26,7 @@ export function useGetAdvisors(request: TAdvisorsRequest) {
 
   const params = useMemo(
     () =>
-      removeNullishProps({
+      removeNilProps({
         page,
         size: PAGE_SIZE,
         sort: request.sortByReviews
@@ -73,18 +76,4 @@ export function useGetAvilableLanguages() {
   const [state] = useAxios<string[]>({ url: '/languages' });
 
   return state;
-}
-
-function removeNullishProps(object: any) {
-  for (const key of Object.keys(object)) {
-    if (isNil(object[key])) {
-      delete object[key];
-    }
-  }
-
-  return object;
-}
-
-function isNil(object: any) {
-  return object === undefined || object === null;
 }

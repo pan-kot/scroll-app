@@ -1,7 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export function Checkbox({ children, ...props }: any) {
+type TCheckboxProps = {
+  children: React.ReactNode;
+  [other: string]: any;
+};
+
+export function Checkbox({ children, ...props }: TCheckboxProps) {
   return (
     <CheckboxWrapper>
       <CheckboxInput {...props} />

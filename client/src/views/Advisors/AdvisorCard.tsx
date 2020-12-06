@@ -47,15 +47,15 @@ export default function AdvisorCard(advisor: TAdvisorCard) {
   );
 }
 
-AdvisorCard.Loading = function () {
+AdvisorCard.Loading = () => {
   return <AdvisorCardWrapper />;
 };
 
-function AdvisorCardWrapper({
-  children = null,
-}: {
+type TAdvisorCardWrapperProps = {
   children?: React.ReactNode;
-}) {
+};
+
+function AdvisorCardWrapper({ children = null }: TAdvisorCardWrapperProps) {
   return (
     <Card
       width="calc(100% - 16px)"

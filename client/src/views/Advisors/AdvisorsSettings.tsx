@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { Flex, Box, Text, Select, Checkbox } from '../../atoms';
 
@@ -8,16 +8,30 @@ export default function AdvisorsSettings({
   settings,
   availableLanguages,
 }: TAdvisors) {
+  const handleChangeSort = useRef((event: any) => {
+    const value = event.target.value || null;
+
+    settings.setSortByReviews(value);
+  });
+
+  const handleChangeIsOnline = useRef((event: any) => {
+    const value = event.target.checked || null;
+
+    settings.setIsOnline(value);
+  });
+
+  const handleChangeLanguage = useRef((event: any) => {
+    const value = event.target.value || null;
+
+    settings.setLanguage(value);
+  });
+
   return (
     <Flex justifyContent="space-between" marginBottom={3}>
       <Box padding={1}>
         <Select
           value={settings.sortByReviews || ''}
-          onChange={(e) => {
-            const value: any = e.target.value || null;
-
-            settings.setSortByReviews(value);
-          }}
+          onChange={handleChangeSort.current}
         >
           <option value="">no sort</option>
           <option value="asc">sort by reviews asc</option>
@@ -29,9 +43,7 @@ export default function AdvisorsSettings({
         <Box padding={1}>
           <Checkbox
             checked={Boolean(settings.isOnline)}
-            onChange={(e: any) =>
-              settings.setIsOnline(e.target.checked || null)
-            }
+            onChange={handleChangeIsOnline.current}
           >
             <Text color="background">Online</Text>
           </Checkbox>
@@ -40,13 +52,9 @@ export default function AdvisorsSettings({
         <Box padding={1}>
           <Select
             value={settings.language || ''}
-            onChange={(e) => {
-              const value: any = e.target.value || null;
-
-              settings.setLanguage(value);
-            }}
+            onChange={handleChangeLanguage.current}
           >
-            <option value=""></option>
+            <option value="" />
 
             {availableLanguages.map((language) => (
               <option key={language}>{language}</option>

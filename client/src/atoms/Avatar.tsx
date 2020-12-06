@@ -3,9 +3,14 @@ import styled from 'styled-components';
 
 import { color, ColorProps, layout, LayoutProps } from 'styled-system';
 
-export function Avatar({ name, color, ...rest }: any) {
+type TAvatarProps = LayoutProps & {
+  name: string;
+  color: string;
+};
+
+export function Avatar({ name, color: clr, ...rest }: TAvatarProps) {
   return (
-    <AvatarStyled backgroundColor={color} color={invertHex(color)} {...rest}>
+    <AvatarStyled backgroundColor={clr} color={invertHex(clr)} {...rest}>
       {getInitials(name)}
     </AvatarStyled>
   );
@@ -35,13 +40,16 @@ function getInitials(name: string) {
     .split('')
     .filter((letter) => letter.toLocaleUpperCase() === letter);
 
+  // Adding placeholders just in case the provided name has no or one capital letter
   capitalLetters.push('X');
   capitalLetters.push('X');
 
   return capitalLetters.slice(0, 2).join('');
 }
 
+// Finds the opposite color to the given hex color
 function invertHex(hex: string) {
+  // tslint:disable-next-line:no-bitwise
   const mask = Number(`0x1${hex.substr(1)}`) ^ 0xffffff;
 
   return '#' + mask.toString(16).substr(1).toUpperCase();
