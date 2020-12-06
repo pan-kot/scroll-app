@@ -1,4 +1,5 @@
 import faker from 'faker';
+import md5 from 'md5';
 
 import { TAdvisorCard } from './types';
 
@@ -42,15 +43,21 @@ function generateEmail(name: string) {
   const randomEmail = faker.internet.email();
   const [, domain] = randomEmail.split('@');
 
-  return (name.split(' ').map(word => word.replace(/\W/,'')).join('.') + '@' + domain).toLowerCase();
+  return (
+    name
+      .split(' ')
+      .map((word) => word.replace(/\W/, ''))
+      .join('.') +
+    '@' +
+    domain
+  ).toLowerCase();
 }
 
 function generateAppearance() {
   const about = faker.lorem.paragraph();
-  const avatar = faker.internet.avatar();
   const color = faker.internet.color();
 
-  return { about, avatar, color };
+  return { about, color };
 }
 
 function generatePresence() {

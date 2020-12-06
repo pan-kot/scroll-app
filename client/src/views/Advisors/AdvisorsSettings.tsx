@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Flex, Box } from '../../atoms';
+import { Flex, Box, Text, Select, Checkbox } from '../../atoms';
 
 import { TAdvisors } from './useAdvisors';
 
@@ -10,8 +10,8 @@ export default function AdvisorsSettings({
 }: TAdvisors) {
   return (
     <Flex justifyContent="space-between" marginBottom={3}>
-      <Box>
-        <select
+      <Box padding={1}>
+        <Select
           value={settings.sortByReviews || ''}
           onChange={(e) => {
             const value: any = e.target.value || null;
@@ -22,33 +22,37 @@ export default function AdvisorsSettings({
           <option value="">no sort</option>
           <option value="asc">sort by reviews asc</option>
           <option value="desc">sort by reviews desc</option>
-        </select>
+        </Select>
       </Box>
 
       <Flex>
-        <Flex>
-          <input
-            type="checkbox"
+        <Box padding={1}>
+          <Checkbox
             checked={Boolean(settings.isOnline)}
-            onChange={(e) => settings.setIsOnline(e.target.checked || null)}
-          />{' '}
-          Online
-        </Flex>
+            onChange={(e: any) =>
+              settings.setIsOnline(e.target.checked || null)
+            }
+          >
+            <Text color="background">Online</Text>
+          </Checkbox>
+        </Box>
 
-        <select
-          value={settings.language || ''}
-          onChange={(e) => {
-            const value: any = e.target.value || null;
+        <Box padding={1}>
+          <Select
+            value={settings.language || ''}
+            onChange={(e) => {
+              const value: any = e.target.value || null;
 
-            settings.setLanguage(value);
-          }}
-        >
-          <option value=""></option>
+              settings.setLanguage(value);
+            }}
+          >
+            <option value=""></option>
 
-          {availableLanguages.map((language) => (
-            <option key={language}>{language}</option>
-          ))}
-        </select>
+            {availableLanguages.map((language) => (
+              <option key={language}>{language}</option>
+            ))}
+          </Select>
+        </Box>
       </Flex>
     </Flex>
   );

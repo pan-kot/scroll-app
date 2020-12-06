@@ -15,6 +15,7 @@ export default createGlobalStyle`
     font-family: Roboto;
 
     background: ${getColor('background')};
+    color: ${getColor('font')};
 
     display: flex;
     align-items: center;

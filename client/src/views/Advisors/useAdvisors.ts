@@ -32,7 +32,7 @@ export default function useAdvisors(): TAdvisors {
   const [sortByReviews, setSortByReviews] = useState<TSortByReviews | null>(
     'desc'
   );
-  const [isOnline, setIsOnline] = useState<true | null>(null);
+  const [isOnline, setIsOnline] = useState<true | null>(true);
   const [language, setLanguage] = useState<string | null>(null);
 
   const request = useMemo(

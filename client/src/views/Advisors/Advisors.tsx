@@ -4,7 +4,7 @@ import { Flex, Box } from '../../atoms';
 
 import useAdvisors from './useAdvisors';
 
-import AdvisorsSettings from './AdvisorsSettings';
+import AdvisorsHeader from './AdvisorsHeader';
 import AdvisorsList from './AdvisorsList';
 
 export default function Advisors() {
@@ -14,23 +14,18 @@ export default function Advisors() {
     <Flex
       width="100%"
       height="100%"
-      flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      padding={2}
+      padding={3}
     >
-      <Flex
-        flexDirection="column"
-        padding={4}
-        style={{ border: '1px solid #FFFFFF', overflowY: 'auto' }}
-        width="600px"
-        height="100%"
-      >
-        <AdvisorsSettings {...advisors} />
+      <Flex flexDirection="column" maxWidth="1000px" width="100%" height="100%">
+        <AdvisorsHeader {...advisors} />
 
-        <Box marginBottom={3}>{advisors.data.total}</Box>
+        <br />
 
-        <AdvisorsList {...advisors} />
+        <Box width="100%" height="100%" overflowY="auto">
+          <AdvisorsList {...advisors} />
+        </Box>
       </Flex>
     </Flex>
   );

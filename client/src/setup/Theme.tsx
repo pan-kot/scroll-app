@@ -13,8 +13,10 @@ export default function Provider({ children }: TProviderProps) {
 
 const theme: Theme = {
   colors: {
-    background: '#3664AE',
-    foreground: '#424242',
+    background: '#FFFFFF',
+    font: '#424242',
+    'font-secondary': '#818181',
+    brand: '#3664AE',
   },
   breakpoints: ['40em', '52em', '64em'],
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],

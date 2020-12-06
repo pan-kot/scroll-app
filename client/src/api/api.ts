@@ -4,7 +4,7 @@ import useAxios from 'axios-hooks';
 
 import { TAdvisorsRequest, TAdvisorsResponse } from './types';
 
-const PAGE_SIZE = 50;
+export const PAGE_SIZE = 50;
 
 export function useGetAdvisors(request: TAdvisorsRequest) {
   const cancelTokenSource = useRef(axios.CancelToken.source());

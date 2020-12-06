@@ -2,14 +2,14 @@ import React, { useCallback } from 'react';
 import { FixedSizeList as List } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
-import { Flex, Text, Box } from '../../atoms';
+import { PAGE_SIZE } from '../../api/api';
 
 import { TAdvisors } from './useAdvisors';
-
 import AdvisorCard from './AdvisorCard';
 
 export default function AdvisorsList({
   data,
+  loading,
   canLoadMore,
   loadMore,
 }: TAdvisors) {
@@ -22,15 +22,21 @@ export default function AdvisorsList({
     [data, canLoadMore, loadMore]
   );
 
+  const nextPageSize = Math.max(PAGE_SIZE, data.total - data.items.length);
+
+  const itemCount = !loading
+    ? data.items.length
+    : data.items.length + nextPageSize;
+
   return (
     <AutoSizer>
       {({ height, width }) => (
         <List
           height={height}
-          itemCount={data.items.length}
+          itemCount={itemCount}
           itemKey={itemKey}
           itemData={data}
-          itemSize={88}
+          itemSize={100}
           width={width}
           onItemsRendered={onItemsRendered}
         >
@@ -42,22 +48,18 @@ export default function AdvisorsList({
 }
 
 function Row({ index, style, data }: any) {
-  const { items } = data;
-  const item = items[index];
+  const content =
+    index < data.items.length ? (
+      <AdvisorCard {...data.items[index]} />
+    ) : (
+      <AdvisorCard.Loading />
+    );
 
-  return (
-    <div style={style}>
-      <AdvisorCard {...item} />
-    </div>
-  );
+  return <div style={style}>{content}</div>;
 }
 
 function itemKey(index: number, data: any) {
-  // Find the item at the specified index.
-  // In this case "data" is an Array that was passed to List as "itemData".
   const item = data.items[index];
 
-  // Return a value that uniquely identifies this item.
-  // Typically this will be a UID of some sort.
-  return item.id;
+  return item?.id || `loading.${index}`;
 }
