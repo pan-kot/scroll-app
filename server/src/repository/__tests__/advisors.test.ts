@@ -1,4 +1,4 @@
-import { selectAdvisors } from '../advisors';
+import { selectAdvisors, selectAvailableLanguages } from '../advisors';
 
 describe('advisors repository', () => {
   it('should return all advisors', async () => {
@@ -75,6 +75,14 @@ describe('advisors repository', () => {
     const reviews = result.items.map((it) => it.feedback.reviews);
 
     expect(isSorted(reviews, (prev, curr) => prev >= curr)).toBe(true);
+  });
+
+  it('should return all available languages of the advisors', async () => {
+    const result = await selectAvailableLanguages();
+
+    expect(result.sort()).toEqual(
+      ['EN', 'DE', 'ES', 'FR', 'IT', 'RU', 'AR'].sort()
+    );
   });
 });
 

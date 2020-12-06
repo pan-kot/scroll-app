@@ -10,6 +10,7 @@ export default createGlobalStyle`
 
     width: 100vw;
     height: 100vh;
+    margin: 0;
 
     font-family: Roboto;
 

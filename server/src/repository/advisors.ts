@@ -50,6 +50,14 @@ export async function selectAdvisors(
   return { items, total };
 }
 
+export async function selectAvailableLanguages() {
+  const { items: advisors } = await selectAdvisors({});
+
+  const allLanguages = flatMap(advisors, (it) => it.features.languages);
+
+  return [...new Set(allLanguages)].sort();
+}
+
 function sortData(data: TAdvisorCard[], sort?: TAdvisorsSort) {
   if (sort) {
     const { property, direction } = sort;
@@ -133,4 +141,8 @@ function loadData(): Promise<TAdvisorCard[]> {
   return fs.promises
     .readFile(path.resolve(__dirname, '../..', 'data', filename), 'utf8')
     .then((data) => JSON.parse(data));
+}
+
+function flatMap<A, B>(arr: A[], transform: (it: A) => B[]): B[] {
+  return arr.reduce((acc, it) => acc.concat(transform(it)), []);
 }

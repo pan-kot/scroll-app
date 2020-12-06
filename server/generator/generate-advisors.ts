@@ -42,7 +42,7 @@ function generateEmail(name: string) {
   const randomEmail = faker.internet.email();
   const [, domain] = randomEmail.split('@');
 
-  return (name.split(' ').join('.') + '@' + domain).toLowerCase();
+  return (name.split(' ').map(word => word.replace(/\W/,'')).join('.') + '@' + domain).toLowerCase();
 }
 
 function generateAppearance() {
@@ -67,25 +67,25 @@ function generateFeatures() {
 
 // Imitating 1 to 3 languages with priority
 function generateLanguages() {
-  const languages = [
-    repeat('EN', 10),
-    repeat('DE', 5),
-    repeat('ES', 5),
-    repeat('FR', 3),
-    repeat('IT', 3),
-    repeat('RU', 2),
-    repeat('AR', 1),
-  ].reduce((acc, it) => [...acc, ...it], []);
+  const languagesChance = [
+    ...repeat('EN', 10),
+    ...repeat('DE', 5),
+    ...repeat('ES', 5),
+    ...repeat('FR', 3),
+    ...repeat('IT', 3),
+    ...repeat('RU', 2),
+    ...repeat('AR', 1),
+  ];
 
   function takeRandom() {
-    return languages[randomInt(0, languages.length - 1)];
+    return languagesChance[randomInt(0, languagesChance.length - 1)];
   }
 
   return unique([takeRandom(), takeRandom(), takeRandom()]).sort();
 }
 
 function generateFeedback() {
-  const reviews = randomInt(0, 555);
+  const reviews = randomInt(0, 500);
 
   return { reviews };
 }
@@ -102,7 +102,7 @@ function repeat<T>(it: T, n: number): T[] {
   return Array(n).fill(it);
 }
 
-const data = generateAdvisors(10000);
+const data = generateAdvisors(50000);
 
 // tslint:disable-next-line:no-console
 console.log(JSON.stringify(data));
