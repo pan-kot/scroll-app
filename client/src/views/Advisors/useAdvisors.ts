@@ -10,8 +10,6 @@ import {
 
 export type TAdvisors = {
   settings: {
-    page: number;
-    setPage(page: number): void;
     sortByReviews: null | TSortByReviews;
     setSortByReviews(sort: null | TSortByReviews): void;
     isOnline: null | true;
@@ -28,7 +26,6 @@ export type TAdvisors = {
 };
 
 export default function useAdvisors(): TAdvisors {
-  const [page, setPage] = useState(0);
   const [sortByReviews, setSortByReviews] = useState<TSortByReviews | null>(
     'desc'
   );
@@ -37,12 +34,11 @@ export default function useAdvisors(): TAdvisors {
 
   const request = useMemo(
     () => ({
-      page,
       sortByReviews,
       isOnline,
       language,
     }),
-    [page, sortByReviews, isOnline, language]
+    [sortByReviews, isOnline, language]
   );
 
   const languagesRequest = useGetAvilableLanguages();
@@ -58,8 +54,6 @@ export default function useAdvisors(): TAdvisors {
 
   return {
     settings: {
-      page,
-      setPage,
       sortByReviews,
       setSortByReviews,
       isOnline,

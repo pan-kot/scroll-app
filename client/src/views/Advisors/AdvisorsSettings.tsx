@@ -27,7 +27,7 @@ export default function AdvisorsSettings({
   });
 
   return (
-    <Flex justifyContent="space-between" marginBottom={3}>
+    <Flex justifyContent="space-between" marginBottom={3} flexWrap="wrap">
       <Box padding={1}>
         <Select
           value={settings.sortByReviews || ''}

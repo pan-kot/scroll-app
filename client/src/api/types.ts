@@ -11,7 +11,6 @@ export type TAdvisorCard = {
 };
 
 export type TAdvisorsRequest = {
-  page: number;
   sortByReviews: TSortByReviews | null;
   isOnline: boolean | null;
   language: string | null;
